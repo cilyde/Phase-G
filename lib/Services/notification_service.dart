@@ -185,7 +185,7 @@
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:phase_g/prayer_time.dart';
+import 'package:phase_g/Models/prayer_time.dart';
 
 import 'firestore_service.dart';
 

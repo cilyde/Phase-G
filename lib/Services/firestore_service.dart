@@ -46,7 +46,7 @@
 //   }
 // }
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:phase_g/prayer_time.dart';
+import 'package:phase_g/Models/prayer_time.dart';
 
 class FirestoreService {
   // Store daily prayer times under a dedicated collection.

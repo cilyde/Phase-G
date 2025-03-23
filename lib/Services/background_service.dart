@@ -265,7 +265,7 @@
 // }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:phase_g/prayer_time.dart';
+import 'package:phase_g/Models/prayer_time.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:workmanager/workmanager.dart';
-import 'background_service.dart';
-import 'homepage.dart';
-import 'notification_service.dart';
+import 'Services/background_service.dart';
+import 'Views/homepage.dart';
+import 'Services/notification_service.dart';
 
 // // Function to calculate initial delay to run just after midnight.
 // Duration calculateInitialDelay() {

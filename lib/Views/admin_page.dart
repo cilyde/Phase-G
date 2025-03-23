@@ -417,9 +417,9 @@
 //   }}
 
 import 'package:flutter/material.dart';
-import 'package:phase_g/prayer_time.dart';
+import 'package:phase_g/Models/prayer_time.dart';
 
-import 'firestore_service.dart';
+import '../Services/firestore_service.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({Key? key}) : super(key: key);
