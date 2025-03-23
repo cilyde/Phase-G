@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _viewModel.fetchDailyPrayerTimes();
-    notificationScheduleProcessor();
+    // notificationScheduleProcessor();
   }
 
   // Helper widget to build a tile for a given prayer.
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
       title: Text(prayerName),
       subtitle: GestureDetector(
         onTap: (){
-          print('tapped'); NotificationService().trialNotification();
+          // print('tapped'); NotificationService().trialNotification();
           // writeInDB();
           },
         child: Text(

@@ -185,6 +185,9 @@
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:phase_g/prayer_time.dart';
+
+import 'firestore_service.dart';
 
 class NotificationService {
   /// Initializes awesome_notifications, sets up the channel, and requests permissions.
@@ -195,14 +198,23 @@ class NotificationService {
       null,
       [
         NotificationChannel(
-          channelKey: 'prayer_channel',
-          channelName: 'Prayer Notifications',
+          channelKey: 'adhan_channel',
+          channelName: 'Adhan Notifications',
           channelDescription: 'Notification channel for prayer times',
           defaultColor: const Color(0xFF9050DD),
           ledColor: Colors.white,
           importance: NotificationImportance.Max,
           channelShowBadge: true,
           soundSource: 'resource://raw/adhan',
+        ),
+        NotificationChannel(
+          channelKey: 'iqamah_channel',
+          channelName: 'Iqamah Notifications',
+          channelDescription: 'Notification channel for prayer times',
+          defaultColor: const Color(0xFF9050DD),
+          ledColor: Colors.white,
+          importance: NotificationImportance.Max,
+          channelShowBadge: true,
         )
       ],
       debug: true, // set to false in production
@@ -222,6 +234,7 @@ class NotificationService {
     required String title,
     required String body,
     required DateTime scheduledTime,
+    bool isIqamah = false,
   }) async {
     // Create a schedule using NotificationCalendar.
     // The schedule takes individual date/time components from the scheduled DateTime.
@@ -239,7 +252,7 @@ class NotificationService {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: id,
-        channelKey: 'prayer_channel',
+        channelKey: isIqamah?'iqamah_channel':'adhan_channel',
         title: title,
         body: body,
       ),
@@ -250,21 +263,149 @@ class NotificationService {
   Future<void> cancelExistingNotifications() async {
     await AwesomeNotifications().cancelAll();
     await AwesomeNotifications().cancelAllSchedules();
+    return;
   }
 
-  void trialNotification() async {
-    await AwesomeNotifications().createNotification(
-      content: NotificationContent(
-        id: 12344,
-        channelKey: 'prayer_channel',
-        title: 'title',
-        body: 'body',
-        customSound: 'resource://raw/adhan',
-      ),
-    );
-  }
-  void restartNotifications() async {
+  // void trialNotification() async {
+  //   await AwesomeNotifications().createNotification(
+  //     content: NotificationContent(
+  //       id: 12344,
+  //       channelKey: 'prayer_channel',
+  //       title: 'title',
+  //       body: 'body',
+  //       customSound: 'resource://raw/adhan',
+  //     ),
+  //   );
+  // }
+
+
+
+  void resetScheduledNotifications() async {
     await cancelExistingNotifications();
-    // restartNotificationService();
+    List<DailyPrayerTimes?>? weekPrayerTimes = [];
+    weekPrayerTimes = await FirestoreService().getDailyPrayerTimesForTheWeek();
+    if(weekPrayerTimes!=null){
+      if(weekPrayerTimes.isNotEmpty){
+        for(var day in weekPrayerTimes){
+          if (day != null) {
+            print("Daily prayer times not empty");
+            print('Scheduling noti');
+            int id = 0;
+            try {
+              // Fajr
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Fajr Adhan",
+                body: "Time for Fajr prayer",
+                scheduledTime: day.fajr.prayerTime,
+                // scheduledTime: DateTime.now().add(Duration(seconds: 10))
+              );
+            } catch (e) {
+              print(e);
+            }
+            try {
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Fajr Iqamah",
+                body: "Time for Fajr Iqamah",
+                scheduledTime: day.fajr.iqamahTime,
+                isIqamah: true
+              );
+            } catch (e) {
+              print(e);
+            }
+            try {
+              // Dhuhr
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Dhuhr Adhan",
+                body: "Time for Dhuhr prayer",
+                scheduledTime: day.dhuhr.prayerTime,
+              );
+            } catch (e) {
+              print(e);
+            }
+            try {
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Dhuhr Iqamah",
+                body: "Time for Dhuhr Iqamah",
+                scheduledTime: day.dhuhr.iqamahTime,
+                  isIqamah: true
+              );
+            } catch (e) {
+              print(e);
+            }
+            try {
+              // Asr
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Asr Adhan",
+                body: "Time for Asr prayer",
+                scheduledTime: day.asr.prayerTime,
+              );
+            } catch (e) {
+              print(e);
+            }
+            try {
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Asr Iqamah",
+                body: "Time for Asr Iqamah",
+                scheduledTime: day.asr.iqamahTime,
+                  isIqamah: true
+              );
+            } catch (e) {
+              print(e);
+            }
+            try {
+              // Maghrib
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Maghrib Adhan",
+                body: "Time for Maghrib prayer",
+                scheduledTime: day.maghrib.prayerTime,
+              );
+            } catch (e) {
+              print(e);
+            }
+            try {
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Maghrib Iqamah",
+                body: "Time for Maghrib Iqamah",
+                scheduledTime: day.maghrib.iqamahTime,
+                  isIqamah: true
+              );
+            } catch (e) {
+              print(e);
+            }
+            try {
+              // Isha
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Isha Adhan",
+                body: "Time for Isha prayer",
+                scheduledTime: day.isha.prayerTime,
+              );
+            } catch (e) {
+              print(e);
+            }
+            try {
+              await NotificationService().scheduleNotification(
+                id: id++,
+                title: "Isha Iqamah",
+                body: "Time for Isha Iqamah",
+                scheduledTime: day.isha.iqamahTime,
+                  isIqamah: true
+              );
+            } catch (e) {
+              print(e);
+            }
+            print('Scheduling noti completed');
+          }
+        }
+      }
+    }
   }
 }

@@ -45,17 +45,19 @@ void main() async {
   await NotificationService().initialize();
 
   // Initialize WorkManager with our background callback.
-  Workmanager().initialize(
-    trialCallbackDispatcher, // our background callback defined above
-    isInDebugMode: true, // set false in production
-  );
+  // Workmanager().initialize(
+  //   trialCallbackDispatcher, // our background callback defined above
+  //   isInDebugMode: true, // set false in production
+  // );
+  //
+  // // Register a periodic or one-off task as needed.
+  // Workmanager().registerPeriodicTask(
+  //   "trialTask",
+  //   "writeTrialWritingsToDB", // example task name, replace as needed
+  //   frequency: const Duration(minutes: 15), // periodic tasks must use the minimum interval
+  // );
 
-  // Register a periodic or one-off task as needed.
-  Workmanager().registerPeriodicTask(
-    "trialTask",
-    "writeTrialWritingsToDB", // example task name, replace as needed
-    frequency: const Duration(minutes: 15), // periodic tasks must use the minimum interval
-  );
+  NotificationService().resetScheduledNotifications();
 
   runApp(MyApp());
 }
